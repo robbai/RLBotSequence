@@ -24,8 +24,8 @@ class Orientation:
         sy = math.sin(self.yaw)
 
         self.forward = Vec3(cp * cy, cp * sy, sp)
-        self.right = Vec3(cy*sp*sr-cr*sy, sy*sp*sr+cr*cy, -cp*sr)
-        self.up = Vec3(-cr*cy*sp-sr*sy, -cr*sy*sp+sr*cy, cp*cr)
+        self.right = Vec3(cy * sp * sr - cr * sy, sy * sp * sr + cr * cy, -cp * sr)
+        self.up = Vec3(-cr * cy * sp - sr * sy, -cr * sy * sp + sr * cy, cp * cr)
 
 
 # Sometimes things are easier, when everything is seen from your point of view.

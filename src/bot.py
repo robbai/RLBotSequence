@@ -8,7 +8,6 @@ from util.vec import Vec3
 
 
 class MyBot(BaseAgent):
-
     def initialize_agent(self):
         # This runs once before the bot starts up
         self.controller_state = SimpleControllerState()
@@ -67,5 +66,7 @@ def draw_debug(renderer, car, ball, action_display):
     # draw a line from the car to the ball
     renderer.draw_line_3d(car.physics.location, ball.physics.location, renderer.white())
     # print the action that the bot is taking
-    renderer.draw_string_3d(car.physics.location, 2, 2, action_display, renderer.white())
+    renderer.draw_string_3d(
+        car.physics.location, 2, 2, action_display, renderer.white()
+    )
     renderer.end_rendering()
