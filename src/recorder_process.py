@@ -12,7 +12,7 @@ from rlbot.utils.structures.bot_input_struct import PlayerInput
 from rlbot.utils.logging_utils import get_logger
 
 
-limit_hz = 250
+limit_hz = 120
 
 controls_attributes = [
     "throttle",
@@ -50,6 +50,18 @@ class RecorderProcess(BotHelperProcess):
 
         self.recording = False
         self.recorded = []
+        self.recording_time = None
+
+    def update_controls(self, controls: PlayerInput):
+        air_roll = self.button_data[0] or self.button_data[4]
+        controls.throttle = self.axis_data[4] - self.axis_data[5]
+        controls.steer = self.axis_data[0]
+        controls.pitch = self.axis_data[1]
+        controls.yaw = 0 if air_roll else self.axis_data[0]
+        controls.roll = self.axis_data[0] if air_roll else 0
+        controls.jump = self.button_data[1]
+        controls.boost = self.button_data[2]
+        controls.handbrake = self.button_data[4]
 
     def start(self):
         self.game_interface.load_interface()
@@ -78,28 +90,24 @@ class RecorderProcess(BotHelperProcess):
                     self.button_data[event.button] = False
 
             # Update controls.
-            air_roll = self.button_data[0] or self.button_data[4]
-            controls.throttle = self.axis_data[4] - self.axis_data[5]
-            controls.steer = self.axis_data[0]
-            controls.pitch = self.axis_data[1]
-            controls.yaw = 0 if air_roll else self.axis_data[0]
-            controls.roll = self.axis_data[0] if air_roll else 0
-            controls.jump = self.button_data[1]
-            controls.boost = self.button_data[2]
-            controls.handbrake = self.button_data[4]
+            self.update_controls(controls)
             self.game_interface.update_player_input(controls, self.index)
 
-            if not self.recording and len(self.recorded) > 0:
+            if not self.recording:
                 # Save.
-                file_name = "recordings/{}.txt".format(int(current_time))
-                file_path = pathlib.Path(__file__).parent.joinpath(file_name)
-                file = open(file_path, "w")
-                file.write("\n".join(self.recorded))
-                file.close()
-                del self.recorded[:]  # Clear.
-            elif self.recording:
+                if len(self.recorded) > 0:
+                    file_name = "recordings/{}.txt".format(int(current_time))
+                    file_path = pathlib.Path(__file__).parent.joinpath(file_name)
+                    file = open(file_path, "w")
+                    file.write("\n".join(self.recorded))
+                    file.close()
+                    del self.recorded[:]  # Clear.
+            else:
+                if len(self.recorded) == 0:
+                    self.recording_time = current_time
                 data = ":".join(
-                    [
+                    [str(current_time - self.recording_time)]
+                    + [
                         str(getattr(controls, attribute))
                         for attribute in controls_attributes
                     ]
