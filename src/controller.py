@@ -2,12 +2,16 @@
 
 
 from math import copysign
+from time import time
 
 import pygame
 from rlbot.botmanager.bot_helper_process import BotHelperProcess
 from rlbot.utils.structures.game_interface import GameInterface
 from rlbot.utils.structures.bot_input_struct import PlayerInput
 from rlbot.utils.logging_utils import get_logger
+
+
+limit_hz = 250
 
 
 def deadzone(axis, transform=False):
@@ -36,8 +40,14 @@ class Controller(BotHelperProcess):
         self.game_interface.load_interface()
 
         controls = PlayerInput()
+        last_time = time()
 
         while not self.quit_event.is_set():
+            current_time = time()
+            if limit_hz and current_time - last_time < 1 / limit_hz:
+                continue
+            last_time = current_time
+
             for event in pygame.event.get():
                 if event.type == pygame.JOYAXISMOTION:
                     self.axis_data[event.axis] = deadzone(
