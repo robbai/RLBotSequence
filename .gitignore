@@ -1,3 +1,6 @@
+# Bot.
+src/recordings/*.txt
+
 # RLBot specific
 RefreshEnv.cmd
 rlbot.cfg
