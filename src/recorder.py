@@ -4,7 +4,7 @@ from rlbot.agents.base_independent_agent import BaseIndependentAgent
 from rlbot.botmanager.helper_process_request import HelperProcessRequest
 
 
-class Agent(BaseIndependentAgent):
+class Recorder(BaseIndependentAgent):
     def get_helper_process_request(self) -> HelperProcessRequest:
         controller_path = pathlib.Path(__file__).parent.joinpath("controller.py")
         options = {"index": self.index}

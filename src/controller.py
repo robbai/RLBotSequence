@@ -16,7 +16,7 @@ def deadzone(axis, transform=False):
     return copysign(min(abs(axis), 1), axis) if abs(axis) >= 0.1 else 0
 
 
-class PS4Controller(BotHelperProcess):
+class Controller(BotHelperProcess):
     def __init__(self, agent_metadata_queue, quit_event, options):
         super().__init__(agent_metadata_queue, quit_event, options)
 
