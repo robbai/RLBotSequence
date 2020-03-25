@@ -10,7 +10,9 @@ from rlbot.utils.structures.bot_input_struct import PlayerInput
 from rlbot.utils.logging_utils import get_logger
 
 
-def deadzone(axis):
+def deadzone(axis, transform=False):
+    if transform:
+        axis = (axis + 1) / 2
     return copysign(min(abs(axis), 1), axis) if abs(axis) >= 0.1 else 0
 
 
@@ -25,7 +27,6 @@ class PS4Controller(BotHelperProcess):
         self.controller.init()
         self.axis_data = [0] * self.controller.get_numaxes()
         self.button_data = [False] * self.controller.get_numbuttons()
-        self.hat_data = (0, 0) * self.controller.get_numhats()
 
         # RLBot.
         self.index = options["index"]
@@ -39,17 +40,17 @@ class PS4Controller(BotHelperProcess):
         while not self.quit_event.is_set():
             for event in pygame.event.get():
                 if event.type == pygame.JOYAXISMOTION:
-                    self.axis_data[event.axis] = deadzone(event.value)
+                    self.axis_data[event.axis] = deadzone(
+                        event.value, transform=event.axis > 3
+                    )
                 elif event.type == pygame.JOYBUTTONDOWN:
                     self.button_data[event.button] = True
                 elif event.type == pygame.JOYBUTTONUP:
                     self.button_data[event.button] = False
-                elif event.type == pygame.JOYHATMOTION:
-                    self.hat_data[event.hat] = event.value
 
             # Update controls.
             air_roll = self.button_data[0] or self.button_data[4]
-            controls.throttle = self.button_data[7] - self.button_data[6]
+            controls.throttle = self.axis_data[4] - self.axis_data[5]
             controls.steer = self.axis_data[0]
             controls.pitch = self.axis_data[1]
             controls.yaw = 0 if air_roll else self.axis_data[0]
