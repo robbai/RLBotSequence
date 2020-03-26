@@ -59,7 +59,7 @@ class Playback(BaseAgent):
         )
         self.renderer.end_rendering()
 
-        # Recording controls.
+        # Controls.
         return self.find_controls(current_time)
 
     def find_controls(self, current_time: float):
