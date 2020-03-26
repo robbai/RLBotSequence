@@ -60,10 +60,17 @@ class Playback(BaseAgent):
         self.renderer.end_rendering()
 
         # Recording controls.
-        for i, item in enumerate(self.recording[1:]):
-            if item[0] > current_time:
-                return self.recording[i][1]
-        return self.convert_output_to_v4([0] * 8)
+        return self.find_controls(current_time)
+
+    def find_controls(self, current_time: float):
+        low, high = 0, len(self.recording) - 1
+        while low < high:
+            mid = (low + high) // 2 + 1
+            if self.recording[mid][0] > current_time:
+                high = mid - 1
+            else:
+                low = mid
+        return self.recording[low][1]
 
     @staticmethod
     def read(file_name: str):
