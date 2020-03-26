@@ -1,5 +1,5 @@
 # Bot.
-src/recordings/*.txt
+src/recordings/*.obj
 
 # RLBot specific
 RefreshEnv.cmd

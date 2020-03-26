@@ -2,8 +2,10 @@
 
 
 from math import copysign
+from copy import copy
 from time import time
 import pathlib
+import pickle
 
 import pygame
 from rlbot.botmanager.bot_helper_process import BotHelperProcess
@@ -96,21 +98,16 @@ class RecorderProcess(BotHelperProcess):
             if not self.recording:
                 # Save.
                 if len(self.recorded) > 0:
-                    file_name = "recordings/{}.txt".format(int(current_time))
+                    file_name = "recordings/{}.obj".format(int(current_time))
                     file_path = pathlib.Path(__file__).parent.joinpath(file_name)
-                    file = open(file_path, "w")
-                    file.write("\n".join(self.recorded))
-                    file.close()
+                    file_handler = open(file_path, "wb")
+                    pickle.dump(self.recorded, file_handler)
+                    file_handler.close()
                     del self.recorded[:]  # Clear.
             else:
                 if len(self.recorded) == 0:
                     self.recording_time = current_time
-                data = ":".join(
-                    [str(current_time - self.recording_time)]
-                    + [
-                        str(getattr(controls, attribute))
-                        for attribute in controls_attributes
-                    ]
+                print(current_time - self.recording_time)
+                self.recorded.append(
+                    (current_time - self.recording_time, copy(controls))
                 )
-                print(data)
-                self.recorded.append(data)
