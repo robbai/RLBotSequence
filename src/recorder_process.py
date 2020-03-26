@@ -13,6 +13,8 @@ from rlbot.utils.structures.game_interface import GameInterface
 from rlbot.utils.structures.bot_input_struct import PlayerInput
 from rlbot.utils.logging_utils import get_logger
 
+import util
+
 
 limit_hz = 120
 
@@ -96,13 +98,9 @@ class RecorderProcess(BotHelperProcess):
             self.game_interface.update_player_input(controls, self.index)
 
             if not self.recording:
-                # Save.
+                # Dump.
                 if len(self.recorded) > 0:
-                    file_name = "recordings/{}.obj".format(int(current_time))
-                    file_path = pathlib.Path(__file__).parent.joinpath(file_name)
-                    file_handler = open(file_path, "wb")
-                    pickle.dump(self.recorded, file_handler)
-                    file_handler.close()
+                    self.dump()
                     del self.recorded[:]  # Clear.
             else:
                 if len(self.recorded) == 0:
@@ -111,3 +109,10 @@ class RecorderProcess(BotHelperProcess):
                 self.recorded.append(
                     (current_time - self.recording_time, copy(controls))
                 )
+
+    def dump(self):
+        file_name = "recordings/{}.obj".format(util.random_letters())
+        file_path = pathlib.Path(__file__).parent.joinpath(file_name)
+        file_handler = open(file_path, "wb")
+        pickle.dump(self.recorded, file_handler)
+        file_handler.close()
