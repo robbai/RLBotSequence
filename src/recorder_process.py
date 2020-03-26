@@ -1,7 +1,6 @@
 # https://gist.github.com/claymcleod/028386b860b75e4f5472
 
 
-from math import copysign
 from copy import copy
 from time import time
 import pathlib
@@ -33,7 +32,7 @@ controls_attributes = [
 def deadzone(axis, transform=False):
     if transform:
         axis = (axis + 1) / 2
-    return copysign(min(abs(axis), 1), axis) if abs(axis) >= 0.1 else 0
+    return util.clamp11(axis) if abs(axis) >= 0.1 else 0
 
 
 class RecorderProcess(BotHelperProcess):
