@@ -5,3 +5,8 @@ rlbottraining
 
 # This will cause pip to auto-upgrade and stop scaring people with warning messages
 pip
+
+# Formatting.
+pre-commit
+black
+flake8
