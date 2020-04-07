@@ -7,6 +7,8 @@ Controller button "8" (Share button on a PS4 controller) will toggle recording y
 After you toggle off recording, your controls will be dumped to a pickle object.
 
 ## Playback
+![Playback](playback.gif)
+
 Modify the `initialize_agent` method to correctly select your dumped controls in `playback.py`.
 Select the config `playback.cfg`, the bot should replay your previously dumped controls.
 
