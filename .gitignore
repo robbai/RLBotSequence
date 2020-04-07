@@ -1,5 +1,6 @@
 # Bot.
 src/recordings/*.obj
+.vscode
 
 # RLBot specific
 RefreshEnv.cmd
