@@ -1,0 +1,3 @@
+python writer.py
+
+PAUSE

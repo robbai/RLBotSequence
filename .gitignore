@@ -1,5 +1,6 @@
 # Bot.
-src/recordings/*.obj
+src/recordings
+!src/recordings/__init__.py
 .vscode
 
 # RLBot specific

@@ -16,7 +16,7 @@ from rlbot.utils.game_state_util import (
 
 class Playback(BaseAgent):
     def initialize_agent(self):
-        self.recording = Playback.read("recordings/bdkawwendm.obj")
+        self.recording = read("recordings/bdkawwendm.obj")
 
         self.time_started = 0
 
@@ -72,10 +72,10 @@ class Playback(BaseAgent):
                 low = mid
         return self.recording[low][1]
 
-    @staticmethod
-    def read(file_name: str):
-        file_path = pathlib.Path(__file__).parent.joinpath(file_name)
-        file_handler = open(file_path, "rb")
-        recording = pickle.load(file_handler)
-        file_handler.close()
-        return recording
+
+def read(file_name: str):
+    file_path = pathlib.Path(__file__).parent.joinpath(file_name)
+    file_handler = open(file_path, "rb")
+    recording = pickle.load(file_handler)
+    file_handler.close()
+    return recording
