@@ -1,30 +1,15 @@
-# RLBotPythonExample
-Example of a python bot using the RLBot framework
+# RLBotSequence
+Python agents that record and playback controller-passthroughs.
 
-## Quick Start
-The easiest way to start a python bot is demonstrated here!
-https://youtu.be/YJ69QZ-EX7k
+## Recording
+Select the config `recorder.cfg`, and drive around using a pygame supported controller.
+Controller button "8" (Share button on a PS4 controller) will toggle recording your controls, this can be seen through the console.
+After you toggle off recording, your controls will be dumped to a pickle object.
 
-It shows you how to:
-- Install the RLBot GUI
-- Use it to create a new bot
+## Playback
+Modify the `initialize_agent` method to correctly select your dumped controls in `playback.py`.
+Select the config `playback.cfg`, the bot should replay your previously dumped controls.
 
-## Changing the bot
-
-- Bot behavior is controlled by `src/bot.py`
-- Bot appearance is controlled by `src/appearance.cfg`
-
-See https://github.com/RLBot/RLBotPythonExample/wiki for documentation and tutorials.
-
-### Older Setup Technique
-
-**Please don't do this unless you've followed the quick start video and it doesn't work!**
-
-https://www.youtube.com/watch?v=UjsQFNN0nSA
-
-1. Make sure you've installed [Python 3.7 64 bit](https://www.python.org/ftp/python/3.7.4/python-3.7.4-amd64.exe). During installation:
-   - Select "Add Python to PATH"
-   - Make sure pip is included in the installation
-1. Download or clone this repository
-1. In the files from the previous step, find and double click on run-gui.bat
-1. Click the 'Run' button
+## Writing
+Run `write.bat`.
+This will save all of your dumped controls in a python file, which can be used similarly to a RLUtilities manoeuvre in your own bot.
