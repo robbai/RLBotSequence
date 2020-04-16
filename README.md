@@ -1,5 +1,5 @@
 # RLBotSequence
-![License](https://img.shields.io/github/license/robbai/RLBotSequence)
+[![License](https://img.shields.io/github/license/robbai/RLBotSequence)](LICENSE)
 
 Python agents that record and playback controller-passthroughs.
 
