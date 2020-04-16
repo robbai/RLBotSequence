@@ -13,5 +13,7 @@ Modify the `initialize_agent` method to correctly select your dumped controls in
 Select the config `playback.cfg`, the bot should replay your previously dumped controls.
 
 ## Writing
+![Writing](writing.png)
+
 Run `write.bat`.
 This will save all of your dumped controls in a python file, which can be used similarly to a RLUtilities manoeuvre in your own bot.
